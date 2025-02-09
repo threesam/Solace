@@ -91,43 +91,48 @@ export default function Home({ advocates }: { advocates: Advocate[] }) {
         </div>
       </form>
 
-      <table className="flex w-full flex-col text-center pb-4 min-w-4xl">
-        <thead className="border-b-2 border-gray-600 w-full">
-          <tr className="grid grid-cols-10 bg-gray-100 *:py-2 *:border-r-2 *:border-gray-300 *:last:border-r-0">
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>City</th>
-            <th>Degree</th>
-            <th className="col-span-4">Specialties</th>
-            <th>Years of Experience</th>
-            <th>Phone Number</th>
-          </tr>
-        </thead>
-        <tbody className="w-full *:odd:bg-gray-200 *:even:bg-gray-100">
-          {filteredAdvocates.map((advocate, index) => {
-            return (
-              <tr
-                className="grid grid-cols-10 items-center border-gray-300 *:grid *:place-content-center *:h-full *:p-2 *:border-r-2 *:border-gray-300 *:last:border-r-0"
-                key={index}
-              >
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td className="text-sm col-span-4">
-                  <ul>
-                    {advocate.specialties.map((s, index) => (
-                      <li key={`${s}-${index}`}>{s}</li>
-                    ))}
-                  </ul>
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="max-lg:overflow-x-scroll">
+        <table className="flex w-full flex-col text-center pb-4 max-lg:min-w-7xl">
+          <thead className="border-b-2 border-gray-600 w-full">
+            <tr className="grid grid-cols-8 lg:grid-cols-10 bg-gray-100 *:py-2 *:border-r-2 *:border-gray-300 *:last:border-r-0">
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>City</th>
+              <th>Degree</th>
+              <th className="col-span-2 lg:col-span-4">Specialties</th>
+              <th>
+                <span className="max-lg:hidden">Years of Experience</span>
+                <span className="lg:hidden">YOE</span>
+              </th>
+              <th>Phone Number</th>
+            </tr>
+          </thead>
+          <tbody className="w-full *:odd:bg-gray-200 *:even:bg-gray-100">
+            {filteredAdvocates.map((advocate, index) => {
+              return (
+                <tr
+                  className="grid grid-cols-8 lg:grid-cols-10 items-center border-gray-300 *:grid *:place-content-center *:h-full *:p-2 *:border-r-2 *:border-gray-300 *:last:border-r-0"
+                  key={index}
+                >
+                  <td>{advocate.firstName}</td>
+                  <td>{advocate.lastName}</td>
+                  <td>{advocate.city}</td>
+                  <td>{advocate.degree}</td>
+                  <td className="text-xs lg:text-sm col-span-2 lg:col-span-4">
+                    <ul>
+                      {advocate.specialties.map((s, index) => (
+                        <li key={`${s}-${index}`}>{s}</li>
+                      ))}
+                    </ul>
+                  </td>
+                  <td>{advocate.yearsOfExperience}</td>
+                  <td>{advocate.phoneNumber}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
