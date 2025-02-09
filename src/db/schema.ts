@@ -1,4 +1,3 @@
-import { sql } from "drizzle-orm";
 import {
   pgTable,
   integer,
@@ -6,7 +5,6 @@ import {
   jsonb,
   serial,
   timestamp,
-  bigint,
 } from "drizzle-orm/pg-core";
 
 const advocates = pgTable("advocates", {
@@ -15,10 +13,12 @@ const advocates = pgTable("advocates", {
   lastName: text("last_name").notNull(),
   city: text("city").notNull(),
   degree: text("degree").notNull(),
-  specialties: jsonb("payload").default([]).notNull(),
+  specialties: jsonb("specialties").default([]).notNull(),
   yearsOfExperience: integer("years_of_experience").notNull(),
-  phoneNumber: bigint("phone_number", { mode: "number" }).notNull(),
-  createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+  phoneNumber: text("phone_number").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 });
 
 export { advocates };
