@@ -12,7 +12,7 @@ type Advocate = {
   phoneNumber: string;
 };
 
-const MIN_SEARCH_LENGTH = 2;
+const MIN_SEARCH_LENGTH = 0;
 
 export default function Home({ advocates }: { advocates: Advocate[] }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,11 +75,11 @@ export default function Home({ advocates }: { advocates: Advocate[] }) {
               placeholder="Search..."
             />
             <button
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-800 text-white px-2 pb-0.5 rounded-full text-sm data-[show=false]:hidden transition-opacity duration-300"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-800 text-white px-2 pb-0.5 rounded-full text-sm data-[show=false]:hidden"
               data-show={searchTerm.length > MIN_SEARCH_LENGTH}
               onClick={handleResetSearch}
             >
-              x
+              x<span className="sr-only">Reset search</span>
             </button>
           </div>
           <p
@@ -92,46 +92,53 @@ export default function Home({ advocates }: { advocates: Advocate[] }) {
       </form>
 
       <div className="max-lg:overflow-x-scroll">
-        <table className="flex w-full flex-col text-center pb-4 max-lg:min-w-7xl">
-          <thead className="border-b-2 border-gray-600 w-full">
-            <tr className="grid grid-cols-8 lg:grid-cols-10 bg-gray-100 *:py-2 *:border-r-2 *:border-gray-300 *:last:border-r-0">
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>City</th>
-              <th>Degree</th>
-              <th className="col-span-2 lg:col-span-4">Specialties</th>
-              <th>
-                <span className="max-lg:hidden">Years of Experience</span>
-                <span className="lg:hidden">YOE</span>
-              </th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody className="w-full *:odd:bg-gray-200 *:even:bg-gray-100">
-            {filteredAdvocates.map((advocate, index) => {
-              return (
-                <tr
-                  className="grid grid-cols-8 lg:grid-cols-10 items-center border-gray-300 *:grid *:place-content-center *:h-full *:p-2 *:border-r-2 *:border-gray-300 *:last:border-r-0"
-                  key={index}
-                >
-                  <td>{advocate.firstName}</td>
-                  <td>{advocate.lastName}</td>
-                  <td>{advocate.city}</td>
-                  <td>{advocate.degree}</td>
-                  <td className="text-xs lg:text-sm col-span-2 lg:col-span-4">
-                    <ul>
-                      {advocate.specialties.map((s, index) => (
-                        <li key={`${s}-${index}`}>{s}</li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td>{advocate.yearsOfExperience}</td>
-                  <td>{advocate.phoneNumber}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {filteredAdvocates.length > 0 && (
+          <table className="flex w-full flex-col text-center pb-4 max-lg:min-w-7xl">
+            <thead className="border-b-2 border-gray-600 w-full">
+              <tr className="grid grid-cols-8 lg:grid-cols-10 bg-gray-100 *:py-2 *:border-r-2 *:border-gray-300 *:last:border-r-0">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>City</th>
+                <th>Degree</th>
+                <th className="col-span-2 lg:col-span-4">Specialties</th>
+                <th>
+                  <span className="max-lg:hidden">Years of Experience</span>
+                  <span className="lg:hidden">YOE</span>
+                </th>
+                <th>Phone Number</th>
+              </tr>
+            </thead>
+            <tbody className="w-full *:odd:bg-gray-200 *:even:bg-gray-100">
+              {filteredAdvocates.map((advocate, index) => {
+                return (
+                  <tr
+                    className="grid grid-cols-8 lg:grid-cols-10 items-center border-gray-300 *:grid *:place-content-center *:h-full *:p-2 *:border-r-2 *:border-gray-300 *:last:border-r-0"
+                    key={index}
+                  >
+                    <td>{advocate.firstName}</td>
+                    <td>{advocate.lastName}</td>
+                    <td>{advocate.city}</td>
+                    <td>{advocate.degree}</td>
+                    <td className="text-xs lg:text-sm col-span-2 lg:col-span-4">
+                      <ul>
+                        {advocate.specialties.map((s, index) => (
+                          <li key={`${s}-${index}`}>{s}</li>
+                        ))}
+                      </ul>
+                    </td>
+                    <td>{advocate.yearsOfExperience}</td>
+                    <td>{advocate.phoneNumber}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+        {filteredAdvocates.length === 0 && (
+          <div className="flex justify-center items-center">
+            <p className="text-2xl font-bold">No results for "{searchTerm}"</p>
+          </div>
+        )}
       </div>
     </main>
   );
